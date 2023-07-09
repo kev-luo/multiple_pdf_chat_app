@@ -1,5 +1,6 @@
 import streamlit as st
 from PyPDF2 import PdfReader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 
 def get_pdf_docs(pdf_docs):
@@ -10,6 +11,14 @@ def get_pdf_docs(pdf_docs):
             text += page.extract_text()
     return text
 
+def get_text_chunks(raw_text):
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=1000,
+        chunk_overlap=200,
+        length_function=len,
+    )
+    text_chunks = text_splitter.split_text(text=raw_text)
+    return text_chunks
 
 def main():
     st.set_page_config(page_title="Chat with Multiple PDFs", page_icon=":books:")
@@ -26,6 +35,7 @@ def main():
                 # get pdf text
                 pdfs_raw_text = get_pdf_docs(pdf_docs=pdf_docs)
                 # get text chunks
+                text_chunks = get_text_chunks(raw_text=pdfs_raw_text)
                 # create vector store with embeddings
                 pass
 
