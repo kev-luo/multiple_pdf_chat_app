@@ -1,6 +1,8 @@
 import streamlit as st
 from PyPDF2 import PdfReader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.embeddings import OpenAIEmbeddings
+from langchain.vectorstores import FAISS
 
 
 def get_pdf_docs(pdf_docs):
@@ -20,6 +22,11 @@ def get_text_chunks(raw_text):
     text_chunks = text_splitter.split_text(text=raw_text)
     return text_chunks
 
+def get_vector_store(text_chunks):
+    embeddings = OpenAIEmbeddings()
+    vector_store = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
+    return vector_store
+
 def main():
     st.set_page_config(page_title="Chat with Multiple PDFs", page_icon=":books:")
     st.header("Chat with Multiple PDFs")
@@ -37,6 +44,7 @@ def main():
                 # get text chunks
                 text_chunks = get_text_chunks(raw_text=pdfs_raw_text)
                 # create vector store with embeddings
+                get_vector_store(text_chunks)
                 pass
 
 
