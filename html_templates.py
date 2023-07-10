@@ -34,7 +34,7 @@ bot_template = '''
     <div class="avatar">
         <img src="" />
     </div>
-    <div class="message">$MSG</div>
+    <div class="message">{{MSG}}</div>
 </div>
 '''
 
@@ -43,6 +43,6 @@ user_template = '''
     <div class="avatar">
         <img src="" />
     </div>
-    <div class="message">$MSG</div>
+    <div class="message">{{MSG}}</div>
 </div>
 '''
